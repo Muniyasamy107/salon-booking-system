@@ -42,19 +42,19 @@ public class Booking {
         this.address = address;
     }
 
-    public String getEmail() {          // ✅ ADD THIS
+    public String getEmail() {          
         return email;
     }
 
-    public void setEmail(String email) { // ✅ ADD THIS
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getContact() {        // ✅ ADD THIS
+    public String getContact() {
         return contact;
     }
 
-    public void setContact(String contact) { // ✅ ADD THIS
+    public void setContact(String contact) {
         this.contact = contact;
     }
 

@@ -51,7 +51,7 @@ function BookingsList() {
         <p>No bookings found</p>
       )}
 
-      {/* DATA LIST */}
+      {/*DATA LIST*/}
       {!loading &&
         bookings.map((b) => (
           <div key={b.id} className="booking-card">

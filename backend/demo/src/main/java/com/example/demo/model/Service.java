@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "services")   // ⚠️ VERY IMPORTANT — MySQL-ல் reserved word
+@Table(name = "services")
 public class Service {
 
     @Id
