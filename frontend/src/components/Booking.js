@@ -1,78 +1,118 @@
 import { useState } from "react";
 import API from "../api";
 
-function Booking({ setPage }) {
+function Booking({ totalAmount, setPage }) {
   const [form, setForm] = useState({
     name: "",
     address: "",
     email: "",
     contact: "",
     date: "",
-    time: "",
+    time: ""
   });
+
+  const [msg, setMsg] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    API.post("/bookings", form)
-      .then(() => {
-        alert("Booking Confirmed 🎉");
-        setPage("bookings");
-      })
-      .catch((err) => {
-        console.log("Error:", err);
-        alert("Booking Failed ❌");
-      });
+  const handleBooking = async () => {
+    try {
+      const payload = {
+        ...form,
+        amount: totalAmount,
+        status: "PENDING",
+        paymentId: ""
+      };
+
+      await API.post("/bookings", payload);
+
+      setMsg("Booking Success ✅");
+
+      setTimeout(() => {
+        setPage("payment");
+      }, 1200);
+    } catch (err) {
+      console.log(err);
+      setMsg("Booking Failed ❌");
+    }
   };
 
   return (
-    <div className="booking">
+    <div className="booking-wrapper">
+      <div className="booking-card">
 
-      <h2>Booking Form</h2>
+        <h2>✨ Premium Booking Sheet</h2>
+        <p className="sub">Fill your details and confirm appointment</p>
 
-      <input
-        name="name"
-        placeholder="Name"
-        onChange={handleChange}
-      />
+        <table className="booking-table">
+          <tbody>
 
-      <input
-        name="address"
-        placeholder="Address"
-        onChange={handleChange}
-      />
+            <tr>
+              <td>Name</td>
+              <td>
+                <input name="name" onChange={handleChange} placeholder="Enter name" />
+              </td>
+            </tr>
 
-      <input
-        name="email"
-        placeholder="Email"
-        type="email"
-        onChange={handleChange}
-      />
+            <tr>
+              <td>Address</td>
+              <td>
+                <input name="address" onChange={handleChange} placeholder="Full address" />
+              </td>
+            </tr>
 
-      <input
-        name="contact"
-        placeholder="Contact Number"
-        onChange={handleChange}
-      />
+            <tr>
+              <td>Email</td>
+              <td>
+                <input name="email" onChange={handleChange} placeholder="Email ID" />
+              </td>
+            </tr>
 
-      <input
-        name="date"
-        type="date"
-        onChange={handleChange}
-      />
+            <tr>
+              <td>Phone</td>
+              <td>
+                <input name="contact" onChange={handleChange} placeholder="Mobile number" />
+              </td>
+            </tr>
 
-      <input
-        name="time"
-        type="time"
-        onChange={handleChange}
-      />
+            <tr>
+              <td>Date</td>
+              <td>
+                <input type="date" name="date" onChange={handleChange} />
+              </td>
+            </tr>
 
-      <button onClick={handleSubmit}>
-        Confirm Booking
-      </button>
+            <tr>
+              <td>Time Slot</td>
+              <td>
+                <select name="time" onChange={handleChange}>
+                  <option value="">Select Time</option>
+                  <option>09:00 AM</option>
+                  <option>10:00 AM</option>
+                  <option>11:00 AM</option>
+                  <option>12:00 PM</option>
+                  <option>02:00 PM</option>
+                  <option>04:00 PM</option>
+                  <option>06:00 PM</option>
+                </select>
+              </td>
+            </tr>
 
+          </tbody>
+        </table>
+
+        <div className="amount-box">
+          💰 Total Amount: ₹{totalAmount}
+        </div>
+
+        <button className="book-btn" onClick={handleBooking}>
+          Confirm Booking
+        </button>
+
+        {msg && <p className="msg">{msg}</p>}
+      </div>
     </div>
   );
 }

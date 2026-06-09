@@ -1,4 +1,4 @@
-package com.salon.backend.model;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 
@@ -15,6 +15,11 @@ public class Booking {
     private String contact;
     private String date;
     private String time;
+
+    // 💳 PAYMENT FIELDS
+    private Double amount;     
+    private String status = "PENDING";   // default value
+    private String paymentId;
 
     public Booking() {}
 
@@ -42,7 +47,7 @@ public class Booking {
         this.address = address;
     }
 
-    public String getEmail() {          
+    public String getEmail() {
         return email;
     }
 
@@ -72,5 +77,31 @@ public class Booking {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    // 💳 PAYMENT GETTERS / SETTERS
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
     }
 }

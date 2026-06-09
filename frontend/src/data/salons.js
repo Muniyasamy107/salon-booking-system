@@ -65,6 +65,7 @@ const salons = [
     name: "Hair Color",
     price: 2000,
     image: serviceImages.hairColor
+
   },
   {
     id: 2,

@@ -1,41 +1,59 @@
 function Navbar({ setPage, cartCount }) {
+
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setPage("login");
+  };
+
   return (
     <div className="navbar">
 
       {/* LOGO */}
-      <h2 className="logo">ONLINE SALON BOOK</h2>
+      <h2 onClick={() => setPage("home")}>
+        ONLINE SALON BOOK
+      </h2>
 
-      <div className="navLinks">
+      {/* LINKS */}
+      <div className="nav-links">
 
-        {/* HOME */}
-        <span onClick={() => setPage("home")}>
-          HOME
-        </span>
+        {token && (
+          <>
+            <span onClick={() => setPage("home")}>Home</span>
+            <span onClick={() => setPage("bookings")}>Bookings</span>
 
-        {/* BOOKINGS (API LIST PAGE) */}
-        <span onClick={() => setPage("bookings")}>
-          BOOKINGS
-        </span>
+            {role === "ADMIN" && (
+              <span
+                className="admin-link"
+                onClick={() => setPage("admin")}
+              >
+                Admin
+              </span>
+            )}
 
-        {/* ABOUT */}
-        <span onClick={() => setPage("about")}>
-          ABOUT
-        </span>
+            <button
+              className="cart-btn"
+              onClick={() => setPage("cart")}
+            >
+              🛒 {cartCount}
+            </button>
 
-        {/* SERVICES */}
-        <span onClick={() => setPage("services")}>
-          SERVICES
-        </span>
+            <span className="user">👤 {name}</span>
 
-        {/* CONTACT */}
-        <span onClick={() => setPage("contact")}>
-          CONTACT
-        </span>
+            <button className="logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        )}
 
-        {/* CART BUTTON */}
-        <button onClick={() => setPage("cart")}>
-          CART ({cartCount})
-        </button>
+        {!token && (
+          <button className="login-btn" onClick={() => setPage("login")}>
+            Login
+          </button>
+        )}
 
       </div>
 

@@ -1,52 +1,77 @@
 function SalonDetails({ salon, addToCart, setPage }) {
+
+  if (!salon) {
+    return (
+      <div className="no-salon">
+        <h3>No salon selected</h3>
+        <button onClick={() => setPage("home")}>
+          ⬅ Go Home
+        </button>
+      </div>
+    );
+  }
+
+  const handleAdd = (service) => {
+    addToCart({
+      id: Date.now(),
+      name: service.name,
+      price: service.price
+    });
+
+    alert("Added to cart ✔");
+  };
+
   return (
-    <div className="details">
-      
-      <button
-        className="back-btn"
-        onClick={() => setPage("home")}
-      >
-        ⬅ Back to Home
+    <div className="salon-page">
+
+      {/* BACK BUTTON */}
+      <button className="back-btn" onClick={() => setPage("home")}>
+        ⬅ Back
       </button>
 
-      <div className="banner">
+      {/* HEADER */}
+      <div className="salon-header">
+
         <img src={salon.image} alt={salon.name} />
-        <div>
+
+        <div className="salon-info">
           <h2>{salon.name}</h2>
-          <p>{salon.location}</p>
+          <p>📍 {salon.location}</p>
         </div>
+
       </div>
 
-      <div className="center-view">
-        <h3>Services</h3>
-        <p>Select your premium salon services</p>
+      {/* TITLE */}
+      <div className="section-title">
+        <h3> Premium Services</h3>
+        <p>Choose your beauty package</p>
       </div>
 
-      <div className="services-grid">
-        {salon.services.map((s) => (
+      {/* SERVICES */}
+      <div className="service-grid">
+
+        {salon.services?.map((s) => (
           <div className="service-card" key={s.id}>
+
             <img src={s.image} alt={s.name} />
 
-            <div className="service-info">
+            <div className="service-body">
               <h4>{s.name}</h4>
-              <p>₹{s.price}</p>
+              <p className="price">₹{s.price}</p>
 
               <button
+                onClick={() => handleAdd(s)}
                 className="add-btn"
-                onClick={() =>
-                  addToCart({
-                    id: Date.now(),
-                    name: s.name,
-                    price: s.price
-                  })
-                }
               >
                 Add to Cart
               </button>
             </div>
+
           </div>
         ))}
+
       </div>
+
     </div>
   );
 }
